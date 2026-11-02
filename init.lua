@@ -54,8 +54,8 @@ vim.opt.swapfile = false
 vim.opt.undofile = true
 vim.opt.undodir = undodir
 vim.opt.updatetime = 300
-vim.opt.timeoutlen = 0
-vim.opt.ttimeoutlen = 0
+vim.opt.timeoutlen = 500
+vim.opt.ttimeoutlen = 50
 vim.opt.autoread = true
 vim.opt.autowrite = false
 
@@ -159,4 +159,20 @@ require('nvim-treesitter').setup {
   install_dir = vim.fn.stdpath('data') .. '/site'
 }
 
-require('nvim-treesitter').install { 'lua', 'javascript', 'python', 'go', 'c_sharp', 'cmake', 'cpp', 'c', 'odin', 'html', 'gdscript', 'gdshader', 'glsl', 'hlsl', }
+require('nvim-treesitter').install { 
+  'lua', 'javascript', 'python',
+  'go', 'c_sharp', 'cmake',
+  'cpp', 'c', 'odin',
+  'html', 'gdscript', 'gdshader',
+  'glsl', 'hlsl', }
+
+-- Keymaps
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.keymap.set("n", "<leader>v", ":belowright vsplit | terminal<CR>", {desc = "Open Terminal Verically"})
+vim.keymap.set("n", "<leader>h", ":belowright split | terminal<CR>", {desc = "Open Terminal Horizontally"})
+
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {desc = "Exit Terminal"})
+vim.keymap.set("t", "<C-g>", "<C-\\><C-n>:q<CR>", {desc = "Close Terminal"})
