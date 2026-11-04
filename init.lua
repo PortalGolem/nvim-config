@@ -91,7 +91,33 @@ vim.pack.add({
   'https://github.com/nvim-tree/nvim-web-devicons',
   { src = "https://github.com/nvim-lualine/lualine.nvim", name = "lualine" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", name = "nvim-treesitter" },
+  "https://github.com/akinsho/bufferline.nvim",
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/nvim-telescope/telescope.nvim",
+  "https://github.com/nvim-telescope/telescope-file-browser.nvim",
+  "https://github.com/folke/which-key.nvim",
 })
+
+-- File Browser
+
+require("telescope").setup {
+  extensions = {
+    file_browser = {
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          -- your custom insert mode mappings
+        },
+        ["n"] = {
+          -- your custom normal mode mappings
+        },
+      },
+    },
+  },
+}
+-- To get telescope-file-browser loaded and working with telescope,
+-- you need to call load_extension, somewhere after setup function:
+require("telescope").load_extension "file_browser"
 
 -- ScrollEOF so scroll off goes past end of file.
 require('scrollEOF').setup()
@@ -152,6 +178,10 @@ require('lualine').setup {
   extensions = {}
 }
 
+--Tabs:
+
+require("bufferline").setup{}
+
 --Treesitter for doing whatever treesitter does
 
 require('nvim-treesitter').setup {
@@ -176,3 +206,13 @@ vim.keymap.set("n", "<leader>h", ":belowright split | terminal<CR>", {desc = "Op
 
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {desc = "Exit Terminal"})
 vim.keymap.set("t", "<C-g>", "<C-\\><C-n>:q<CR>", {desc = "Close Terminal"})
+
+vim.keymap.set("n", "J", ":bprevious<CR>", {desc = "previous buffer"})
+vim.keymap.set("n", "K", ":bnext<CR>", {desc = "next buffer"})
+
+--  File Managment
+
+local home = vim.uv.os_homedir()
+
+vim.keymap.set("n", "<leader>f", ":Telescope file_browser files=false cwd_to_path=true path=" .. home .. "<CR>", {desc = "Browse Files"})
+vim.keymap.set("n", "<leader>n", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", {desc = "Browse local files"})
